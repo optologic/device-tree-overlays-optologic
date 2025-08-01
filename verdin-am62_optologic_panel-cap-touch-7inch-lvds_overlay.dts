@@ -1,0 +1,177 @@
+// SPDX-License-Identifier: GPL-2.0-or-later OR MIT
+/*
+ * Copyright 2025 OPTO Logic Technologies S.A.
+ * Author: Enguerrand de Ribaucourt <enguerrand.de-ribaucoutr@savoirfairelinux.com>
+ */
+
+// Verdin AM62 Optologic Panel Capacitive Touch 7inch LVDS Overlay
+// Extends verdin-am62_panel-cap-touch-10inch-lvds_overlay.dts
+
+/dts-v1/;
+/plugin/;
+
+#include <dt-bindings/gpio/gpio.h>
+#include <dt-bindings/interrupt-controller/irq.h>
+#include <dt-bindings/pwm/pwm.h>
+#include "k3-pinctrl.h"
+
+/ {
+	compatible = "toradex,verdin-am62";
+};
+
+&{/} {
+	backlight_lvds_native: backlight-lvds-native {
+		compatible = "pwm-backlight";
+		pinctrl-names = "default";
+		pinctrl-0 = <&pinctrl_i2s_2_d_out_gpio>;
+		brightness-levels = <0 45 63 88 119 158 203 255>;
+		default-brightness-level = <4>;
+		/* Verdin I2S_2_D_OUT as GPIO (SODIMM 46) */
+		enable-gpios = <&main_gpio0 34 GPIO_ACTIVE_HIGH>;
+		/* Verdin PWM_2 (SODIMM 16) */
+		pwms = <&epwm0 1 6666667 0>;
+		status = "okay";
+	};
+
+	panel_dpi: panel-lvds-native {
+		compatible = "panel-lvds";
+		#address-cells = <1>;
+		#size-cells = <0>;
+		backlight = <&backlight_lvds_native>;
+		data-mapping = "vesa-24";
+
+		port@0 {
+			reg = <0>;
+
+			panel_lvds_in: endpoint {
+				remote-endpoint = <&oldi_0_out>;
+			};
+		};
+		/* HACK to make oldi1 happy */
+		port@1 {
+			reg = <1>;
+
+			panel_lvds_in1: endpoint {
+				remote-endpoint = <&oldi_1_out>;
+			};
+		};
+	};
+};
+
+&main_pmx0 {
+	/* Mallow Touch RST */
+	pinctrl_i2s_2_d_in_gpio: main-gpio0-33-default-pins {
+		pinctrl-single,pins = <
+			AM62X_IOPAD(0x0088, PIN_INPUT, 7) /* (L24) GPMC0_OEn_REn.GPIO0_33 */ /* SODIMM 48 */
+		>;
+	};
+
+	/* Mallow Touch INT#*/
+	pinctrl_i2s_2_sync_gpio: main-gpio0-37-default-pins {
+		pinctrl-single,pins = <
+			AM62X_IOPAD(0x0098, PIN_INPUT,  7) /* (U23) GPMC0_WAIT0.GPIO0_37 */ /* SODIMM 44 */
+		>;
+	};
+};
+
+&dss {
+	status = "okay";
+};
+
+&dss_ports {
+	#address-cells = <1>;
+	#size-cells = <0>;
+
+	/* VP1: Output to OLDI */
+	port@0 {
+		reg = <0>;
+		#address-cells = <1>;
+		#size-cells = <0>;
+
+		dpi0_out0: endpoint@0 {
+			reg = <0>;
+			remote-endpoint = <&oldi_0_in>;
+		};
+		dpi0_out1: endpoint@1 {
+			reg = <1>;
+			remote-endpoint = <&oldi_1_in>;
+		};
+	};
+};
+
+/* Verdin PWM_1, PWM_2 */
+&epwm0 {
+	status = "okay";
+};
+
+/* Verdin I2C_2_DSI */
+&main_i2c2 {
+	#address-cells = <1>;
+	#size-cells = <0>;
+	status = "okay";
+	clock-frequency = <100000>;
+
+	touch@26 {
+		compatible = "ilitek,ili2117";
+		reg = <0x26>;
+		pinctrl-names = "default";
+		pinctrl-0 = <&pinctrl_i2s_2_d_in_gpio>, <&pinctrl_i2s_2_sync_gpio>;
+		/* Verdin I2S_2_SYNC as GPIO (SODIMM 44) */
+		interrupt-parent = <&main_gpio0>;
+		interrupts = <37 IRQ_TYPE_EDGE_RISING>;
+		/* Verdin I2S_2_D_IN as GPIO(SODIMM 48) */
+		reset-gpios = <&main_gpio0 33 GPIO_ACTIVE_LOW>;
+	};
+};
+
+&oldi0 {
+	status = "okay";
+};
+
+&oldi0_ports {
+	#address-cells = <1>;
+	#size-cells = <0>;
+
+	port@0 {
+		reg = <0>;
+		oldi_0_in: endpoint {
+			remote-endpoint = <&dpi0_out0>;
+		};
+	};
+
+	port@1 {
+		reg = <1>;
+		oldi_0_out: endpoint {
+			remote-endpoint = <&panel_lvds_in>;
+		};
+	};
+};
+
+/*
+ * HACK: With oldi1 disable oldi always returns EAGAIN making the panel not
+ * show anything, so pretend we are in clone mode.
+ */
+&oldi1 {
+	status = "okay";
+};
+
+&oldi1_ports {
+	#address-cells = <1>;
+	#size-cells = <0>;
+
+	port@0 {
+		reg = <0>;
+		oldi_1_in: endpoint {
+			remote-endpoint = <&dpi0_out1>;
+		};
+	};
+
+	port@1 {
+		reg = <1>;
+		oldi_1_out: endpoint {
+			remote-endpoint = <&panel_lvds_in1>;
+		};
+	};
+};
+
+#include "display-scx7.dtsi"
