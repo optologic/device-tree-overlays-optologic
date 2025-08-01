@@ -1,0 +1,31 @@
+// SPDX-License-Identifier: GPL-2.0-or-later OR MIT
+/*
+ * Copyright © 2024 TecInvent
+ * Author: Kevin Detta <kevin.detta@tecinvent.ch>
+ * Author: Dina Gomes Dias <dina.gomes@tecinvent.ch>
+ */
+
+&panel_dpi {
+	status = "okay";
+
+	width-mm = <154>;
+	height-mm = <86>;
+
+	panel-timing {
+		clock-frequency = <51200000>;
+		hactive = <1024>;
+		hback-porch = <150>;
+		hfront-porch = <150>;
+		hsync-len = <20>;
+		vactive = <600>;
+		vback-porch = <15>;
+		vfront-porch = <15>;
+		vsync-len = <5>;
+
+		de-active = <1>;
+		hsync-active = <0>;
+		vsync-active = <0>;
+		pixelclk-active = <0>;
+	};
+};
+
