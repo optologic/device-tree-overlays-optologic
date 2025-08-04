@@ -22,7 +22,7 @@
 		/* Verdin I2S_2_D_OUT as GPIO (SODIMM 46) */
 		enable-gpios = <&gpio5 1 GPIO_ACTIVE_HIGH>;
 		/* Verdin PWM_2 (SODIMM 16) */
-		pwms = <&pwm2 0 6666667 PWM_POLARITY_INVERTED>;
+		pwms = <&pwm2 0 6666667 0>;
 		status = "okay";
 	};
 
