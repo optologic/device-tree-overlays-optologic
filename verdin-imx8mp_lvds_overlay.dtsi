@@ -12,11 +12,11 @@
 	backlight: backlight {
 		compatible = "pwm-backlight";
 		pinctrl-names = "default";
-		pinctrl-0 = <&pinctrl_i2s_2_d_out_dsi_1_bkl_en>;		
+		pinctrl-0 = <&pinctrl_i2s_2_d_out_dsi_1_bkl_en>;
 		brightness-levels = <0 45 63 88 119 158 203 255>;
 		default-brightness-level = <4>;
 		/* Verdin I2S_2_D_OUT as GPIO (SODIMM 46) */
-		enable-gpios = <&gpio5 1 GPIO_ACTIVE_HIGH>;	
+		enable-gpios = <&gpio5 1 GPIO_ACTIVE_HIGH>;
 		/* Verdin PWM_2 (SODIMM 16) */
 		pwms = <&pwm2 0 6666667 PWM_POLARITY_INVERTED>;
 		status = "okay";
@@ -81,7 +81,7 @@
 	pinctrl_i2s_2_d_in_gpio: gpio4io30grp {
 		fsl,pins =
 			<MX8MP_IOMUXC_SAI3_RXD__GPIO4_IO30 0x1c4>;	/* SODIMM 48 */
-	};	
+	};
 
 	pinctrl_i2s_2_sync_gpio: gpio4io31grp {
 		fsl,pins =
