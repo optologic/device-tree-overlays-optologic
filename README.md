@@ -10,8 +10,8 @@ These device tree overlays follow the structure provided by Toradex's overlays:
 
 You may clone this git repository on the branch corresponding to your Linux
 kernel architecture and version. For example:
- - `linux-toradex-ti-6.6.y`
- - `linux-toradex-nxp-6.6.y`
+ - [`linux-toradex-ti-6.6.y`](https://github.com/optologic/device-tree-overlays-optologic/tree/linux-toradex-ti-6.6.y)
+ - [`linux-toradex-nxp-6.6.y`](https://github.com/optologic/device-tree-overlays-optologic/tree/linux-toradex-nxp-6.6.y)
 
 ## Supported Hardware
 
