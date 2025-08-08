@@ -34,3 +34,9 @@ necessary instructions to compile the overlays when building images.
 If you plan on integrating these overlays into a TorizonOS image, you can use
 our Torizon [configurations
 repository](https://github.com/optologic/torizon-optologic).
+
+## Contribute or Contact
+
+Please submit any patches and bug reports about this repository to the maintainer:
+
+Maintainer: OPTO Logic Technology S.A. <support@optologic.ch>
