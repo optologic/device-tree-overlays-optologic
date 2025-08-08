@@ -13,6 +13,15 @@ kernel architecture and version. For example:
  - `linux-toradex-ti-6.6.y`
  - `linux-toradex-nxp-6.6.y`
 
+## Supported Hardware
+
+We currently support the following Toradex SoMs:
+ - `verdin-am62`
+ - `verdin-imx8mp`
+
+These may be combined with the following OPTO Logic displays:
+ - `7-inch` with capacitive touchscreen
+
 ## Compiling with Yocto
 
 This repository is intended to be used with the Yocto build system. The recipes
