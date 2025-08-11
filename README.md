@@ -20,7 +20,17 @@ We currently support the following Toradex SoMs:
  - `verdin-imx8mp`
 
 These may be combined with the following OPTO Logic displays:
+ - `5-inch` with capacitive touchscreen
  - `7-inch` with capacitive touchscreen
+ - `10-inch` with capacitive touchscreen
+
+## Driver support
+
+Make that your Linux configuration enables, or includes as modules the following
+touchscreen drivers:
+
+- `ilitek_ts_i2c` for the 5-inch display
+- `ili210x` for the 7-inch and 10-inch displays
 
 ## Compiling with Yocto
 
