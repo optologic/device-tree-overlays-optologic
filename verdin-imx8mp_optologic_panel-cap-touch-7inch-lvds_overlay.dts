@@ -6,7 +6,7 @@
  * Author: Dina Gomes Dias <dina.gomes@tecinvent.ch>
  */
 
-// Verdin iMX8M Plus single-channel LVDS
+// Verdin iMX8M Plus single-channel LVDS for 7 inch OPTO Logic display
 // Extends verdin-imx8mp_panel-cap-touch-10inch-lvds_overlay.dts
 
 /dts-v1/;
@@ -115,12 +115,12 @@
 &iomuxc {
 	pinctrl_i2s_2_d_in_gpio: gpio4io30grp {
 		fsl,pins =
-			<MX8MP_IOMUXC_SAI3_RXD__GPIO4_IO30 0x1c4>;	/* SODIMM 48 */
+			<MX8MP_IOMUXC_SAI3_RXD__GPIO4_IO30 0x1c4>; /* SODIMM 48 */
 	};
 
 	pinctrl_i2s_2_sync_gpio: gpio4io31grp {
 		fsl,pins =
-			<MX8MP_IOMUXC_SAI3_TXFS__GPIO4_IO31 0x184>;	/* SODIMM 44 */
+			<MX8MP_IOMUXC_SAI3_TXFS__GPIO4_IO31 0x184>; /* SODIMM 44 */
 	};
 };
 
