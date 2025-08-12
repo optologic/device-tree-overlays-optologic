@@ -33,3 +33,10 @@
         status = "okay";
 	};
 };
+
+// We need to force the parent PLL
+// See: https://developer.toradex.com/linux-bsp/application-development/multimedia/display-output-resolution-and-timings-linux/#verdin-imx8m-plus-lvds-known-issues
+&media_blk_ctrl {
+       assigned-clock-rates = <500000000>, <200000000>,
+                               <0>, <0>, <519750000>; // 74.25MHz*7
+};
