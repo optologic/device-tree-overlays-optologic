@@ -14,6 +14,7 @@
 #include <dt-bindings/gpio/gpio.h>
 #include <dt-bindings/interrupt-controller/irq.h>
 #include <dt-bindings/pwm/pwm.h>
+#include <dt-bindings/clock/imx8mp-clock.h>
 #include "imx8mp-pinfunc.h"
 
 #include "verdin-imx8mp_optologic_lvds.dtsi"
@@ -32,4 +33,11 @@
 		reset-gpios = <&gpio4 30 GPIO_ACTIVE_LOW>;
         status = "okay";
 	};
+};
+
+// We need to force the parent PLL
+// See: https://developer.toradex.com/linux-bsp/application-development/multimedia/display-output-resolution-and-timings-linux/#verdin-imx8m-plus-lvds-known-issues
+&media_blk_ctrl {
+       assigned-clock-rates = <500000000>, <200000000>,
+                              <0>, <0>, <173250000>; // 24.75MHz*7 (freq used in linux-nxp 5.15)
 };
