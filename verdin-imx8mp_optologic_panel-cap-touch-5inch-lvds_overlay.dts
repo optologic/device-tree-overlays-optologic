@@ -28,8 +28,8 @@
 		pinctrl-names = "default";
 		pinctrl-0 = <&pinctrl_i2s_2_d_in_gpio &pinctrl_i2s_2_sync_gpio>;
 		interrupt-parent = <&gpio4>;
-		/* EF: edge falling */
-		interrupts = <31 IRQ_TYPE_EDGE_FALLING>;
+		/* ER: edge rising */
+		interrupts = <31 IRQ_TYPE_EDGE_RISING>;
 		reset-gpios = <&gpio4 30 GPIO_ACTIVE_LOW>;
         status = "okay";
 	};
