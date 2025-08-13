@@ -38,5 +38,5 @@
 // See: https://developer.toradex.com/linux-bsp/application-development/multimedia/display-output-resolution-and-timings-linux/#verdin-imx8m-plus-lvds-known-issues
 &media_blk_ctrl {
        assigned-clock-rates = <500000000>, <200000000>,
-                               <0>, <0>, <519750000>; // 74.25MHz*7
+                               <0>, <0>, <358400000>; // 51.2MHz*7
 };
