@@ -1,0 +1,31 @@
+// SPDX-License-Identifier: GPL-2.0-or-later OR MIT
+/*
+ * Copyright © 2024 TecInvent
+ * Author: Kevin Detta <kevin.detta@tecinvent.ch>
+ * Author: Dina Gomes Dias <dina.gomes@tecinvent.ch>
+ */
+
+// SCX 5inch LVDS Display Dimensions and Timing
+
+&panel_dpi {
+	status = "okay";
+
+	width-mm = <108>;
+	height-mm = <65>;
+
+	panel-timing {
+		clock-frequency = <25000000>;
+		hactive = <800>;
+		hback-porch = <64>;
+		hfront-porch = <64>;
+		hsync-len = <40>;
+		vactive = <480>;
+		vback-porch = <5>;
+		vfront-porch = <5>;
+		vsync-len = <6>;
+		de-active = <1>;
+		hsync-active = <0>;
+		vsync-active = <0>;
+		pixelclk-active = <0>;
+	};
+};
