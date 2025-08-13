@@ -27,7 +27,7 @@
 		pinctrl-0 = <&pinctrl_i2s_2_d_in_gpio>, <&pinctrl_i2s_2_sync_gpio>;
 		/* Verdin I2S_2_SYNC as GPIO (SODIMM 44) */
 		interrupt-parent = <&main_gpio0>;
-		interrupts = <37 IRQ_TYPE_EDGE_FALLING>;
+		interrupts = <37 IRQ_TYPE_EDGE_RISING>;
 		/* Verdin I2S_2_D_IN as GPIO(SODIMM 48) */
 		reset-gpios = <&main_gpio0 33 GPIO_ACTIVE_LOW>;
 	};
