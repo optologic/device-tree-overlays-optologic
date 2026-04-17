@@ -7,31 +7,25 @@
 	compatible = "toradex,verdin-imx8mm";
 };
 
-#include "verdin-imx8_mipi-dsi-to-sn65dsi84.dtsi"
+#include <dt-bindings/gpio/gpio.h>
+#include <dt-bindings/interrupt-controller/irq.h>
+#include <dt-bindings/pwm/pwm.h>
 
-&backlight {
-	status = "okay";
-	/* Verdin PWM_3_DSI/PWM_3_DSI_LVDS (SODIMM 19) */
-	pwms = <&pwm1 0 6666667 0>;
-};
-
-&gpu {
-	status = "okay";
-};
-
-/* Verdin I2C_1 */
-&i2c4 {
-	status = "okay";
-};
-
-&lcdif {
-	status = "okay";
-};
+#include "verdin-imx8mm_backlight-dsi_overlay.dtsi"
 
 &{/} {
+	reg_dsi_lvds: regulator-dsi-lvds {
+		compatible = "regulator-fixed";
+		enable-active-high;
+		/* Verdin CTRL_SLEEP_MOCI# (SODIMM 256) */
+		gpio = <&gpio5 1 GPIO_ACTIVE_HIGH>;
+		regulator-boot-on;
+		regulator-name = "DSI_1_PWR_EN";
+	};
+
 	panel_dpi: panel_dpi { /*name to keep the compatibilty with colibri panel*/
 		compatible = "panel-lvds";
-		backlight = <&backlight>;
+		backlight = <&backlight_verdin_dsi>;
 		data-mapping = "vesa-24";
 		port {
 			panel_lvds_native_in: endpoint {
@@ -41,24 +35,71 @@
 	};
 };
 
-&lvds_ti_sn65dsi84 {
+&backlight_verdin_dsi {
+	pinctrl-names = "default";
+	pinctrl-0 = <&pinctrl_i2s_2_d_out_dsi_1_bkl_en>;
+	/* Verdin I2S_2_D_OUT (DSI_1_BKL_EN/DSI_1_BKL_EN_LVDS, SODIMM 46) */
+	enable-gpios = <&gpio3 24 GPIO_ACTIVE_HIGH>;
+};
+
+&gpu {
+	status = "okay";
+};
+
+/* Verdin I2C_1 */
+&i2c4 {
+	#address-cells = <1>;
+	#size-cells = <0>;
 	status = "okay";
 
-	ports {
-		#address-cells = <1>;
-		#size-cells = <0>;
+	bridge@2c {
+		compatible = "ti,sn65dsi84";
+		reg = <0x2c>;
+		pinctrl-names = "default";
+		pinctrl-0 = <&pinctrl_gpio_10_dsi>;
+		/* Verdin GPIO_9_DSI (SN65DSI84 IRQ, SODIMM 17, unused) */
+		/* Verdin GPIO_10_DSI (SODIMM 21) */
+		enable-gpios = <&gpio3 3 GPIO_ACTIVE_HIGH>;
+		vcc-supply = <&reg_dsi_lvds>;
+		status = "okay";
 
-		port@2 {
-			reg = <2>;
+		ports {
+			#address-cells = <1>;
+			#size-cells = <0>;
 
-			lvds_out_panel: endpoint {
-				remote-endpoint = <&panel_lvds_native_in>;
+			port@0 {
+				reg = <0>;
+
+				dsi_lvds_bridge_in: endpoint {
+					data-lanes = <1 2 3 4>;
+					remote-endpoint = <&mipi_dsi_bridge1_out>;
+				};
+			};
+
+			port@2 {
+				reg = <2>;
+
+				lvds_out_panel: endpoint {
+					remote-endpoint = <&panel_lvds_native_in>;
+				};
 			};
 		};
 	};
 };
 
-&reg_dsi_lvds {
-	/* Verdin CTRL_SLEEP_MOCI# (SODIMM 256) */
-	gpio = <&gpio5 1 GPIO_ACTIVE_HIGH>;
+&lcdif {
+	status = "okay";
+};
+
+&mipi_dsi {
+	#address-cells = <1>;
+	#size-cells = <0>;
+	status = "okay";
+
+	port@1 {
+		mipi_dsi_bridge1_out: endpoint {
+			attach-bridge;
+			remote-endpoint = <&dsi_lvds_bridge_in>;
+		};
+	};
 };
