@@ -1,0 +1,22 @@
+// SPDX-License-Identifier: GPL-2.0-or-later OR MIT
+/*
+ * Copyright (C) 2025 Toradex
+ *
+ * Backlight on DSI connector
+ * Original code from https://git.toradex.com/device-tree-overlays.git/tree/overlays/verdin-imx8mm_backlight-dsi_overlay.dtsi?h=toradex_6.6-2.2.x-imx&id=46d24e74d02d28a8c74b06d35a619fe9b8b68a71
+ */
+
+&{/} {
+	backlight_verdin_dsi: backlight-verdin-dsi {
+		compatible = "pwm-backlight";
+		brightness-levels = <0 45 63 88 119 158 203 255>;
+		default-brightness-level = <4>;
+		/* Verdin PWM_3_DSI */
+		pwms = <&pwm1 0 6666667 0>;
+	};
+};
+
+/* Verdin PWM_3_DSI */
+&pwm1 {
+	status = "okay";
+};
